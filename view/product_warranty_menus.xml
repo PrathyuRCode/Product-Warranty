@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="warranty_menu_root" name="Product Warranty" groups="product_warranty.group_warranty_user">
+            <menuitem id="warranty_first_level_menu" name="Warranty">
+                <menuitem id="warranty_model_menu_action" action="warranty_model_action"/>
+            </menuitem>
+
+
+            <menuitem id="warranty_report_menu" name="Reporting">
+                <menuitem id="warranty_report_menu_action" name="Warranty Report" action="print_report_action"/>
+            </menuitem>
+
+        </menuitem>
+
+
+    </data>
+</odoo>

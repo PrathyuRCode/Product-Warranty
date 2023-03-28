@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="real_estate_table_view_search" model="ir.ui.view">
+            <field name="name">product.warranty.table.view.search</field>
+            <field name="model">product.warranty.table</field>
+            <field name="arch" type="xml">
+                    <search string="Search results">
+                        <field name="reference_no"/>
+                        <field name="customer_id"/>
+                        <field name="request_date"/>
+                        <field name="purchase_date"/>
+                        <field name="invoice_id"/>
+                        <separator/>
+                        <filter string="Done" name="state" domain="[('state', '=', 'done')]"/>
+                        <filter string="Received" name="state" domain="[('state', '=', 'received')]"/>
+                        <filter string="Canceled" name="state" domain="[('state', '=', 'cancel')]"/>
+                        <filter string="Draft" name="state" domain="[('state', '=', 'draft')]"/>
+                        <filter string="To Approve" name="state" domain="[('state', '=', 'to_approve')]"/>
+                        <group expand="1" string="Group By">
+                            <filter string="Invoice" name="invoice_id" context="{'group_by':'invoice_id', 'residual_visible':True}"/>
+                            <filter string="Stages" name="state" context="{'group_by':'state', 'residual_visible':True}"/>
+                        </group>
+                    </search>
+            </field>
+        </record>
+
+        <record id="product_warranty_table_tree" model="ir.ui.view">
+            <field name="name">product.warranty.table.tree</field>
+            <field name="model">product.warranty.table</field>
+            <field name="arch" type="xml">
+                <tree string="Channel">
+                    <field name="reference_no"/>
+                    <field name="customer_id"/>
+                    <field name="request_date"/>
+                    <field name="purchase_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_warranty_table_view_form" model="ir.ui.view">
+            <field name="name">product.warranty.table.form</field>
+            <field name="model">product.warranty.table</field>
+            <field name="arch" type="xml">
+                <form string="Test">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved,cancel"/>
+                        <button name="button_immediate_confirm" states="draft" string="Confirm" type="object" class="btn btn-primary me-1"/>
+                        <button name="button_immediate_approve" states="to_approve" string="Approve" type="object" class="btn btn-primary me-1" groups="product_warranty.group_warranty_manager"/>
+                        <button name="button_immediate_received" states="approved" string="Receive" type="object" class="btn btn-primary me-1" statusbar_visible="received"/>
+                        <button name="button_immediate_return" states="received" string="Return" type="object" class="btn btn-primary me-1"/>
+                        <button name="button_immediate_cancel" states="draft,to_approve,approved" string="Cancel" type="object"/>
+                    </header>
+
+                    <sheet>
+                        <div name="button_box" position="inside">
+                            <button name="smart_tab" type="object" string="Product Moves" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('state', 'not in', ('received', 'return', 'done'))]}"/>
+
+                        </div>
+
+                        <h1>
+                            <field name="reference_no"/>
+                        </h1>
+                        <group>
+                            <group>
+<!--                                <field name="sale_list_id"/>-->
+                                <field name="invoice_id" options="{'no_create': True }"/>
+                            </group>
+                            <group>
+                                <field name="request_date"/>
+                                <field name="purchase_date"/>
+                            </group>
+                            <group>
+                                <field name="customer_id"/>
+                            </group>
+                            <group>
+                                <field name="warranty_expiry_date"/>
+                                <field name="sample"/>
+                            </group>
+                            <group>
+                            <field name="product_id" options="{'no_create': True }"/>
+                            <field name="lot_number_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+    </data>
+       <record id="seq_product_warranty" model="ir.sequence">
+           <field name="name">Product Warranty</field>
+           <field name="code">product.warranty.table</field>
+           <field name="prefix">PW</field>
+           <field name="padding">5</field>
+           <field name="company_id" eval="False"/>
+       </record>
+
+        <record id="warranty_model_action" model="ir.actions.act_window">
+            <field name="name">Product Warranty</field>
+            <field name="res_model">product.warranty.table</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+</odoo>

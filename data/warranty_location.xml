@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="warranty_location" model="stock.location">
+            <field name="name">Warranty Location</field>
+        </record>
+    </data>
+</odoo>

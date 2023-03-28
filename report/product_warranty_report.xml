@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_product_warranty" model="ir.actions.report">
+            <field name="name">Warranty Report</field>
+            <field name="model">warranty.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">product_warranty.warranty_report_sheet_templates</field>
+            <field name="report_file">product_warranty.warranty_report_sheet_templates</field>
+        </record>
+        <template id="warranty_report_sheet_templates">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div>
+                        <h2>
+                            <strong>
+                                <center>Product Warranty</center>
+                            </strong>
+                        </h2>
+                        <div>
+                            <center>
+                                <t t-if="customer_id">
+                                    <h4>
+                                        Customer :
+                                        <t t-esc='customer_id'/>
+                                    </h4>
+                                </t>
+                            </center>
+                        </div>
+                        <div>
+                            <t t-if="start_date">
+                                From date :
+                                <t t-esc='start_date'/>
+                            </t>
+                        </div>
+                        <br></br>
+                        <br></br>
+                        <div>
+                            <t t-if="end_date">
+                                To Date :
+                                <t t-esc='end_date'/>
+                            </t>
+                        </div>
+                        <br></br>
+                        <br></br>
+                        <div>
+                            <t t-if="product_ids">
+                                Product :
+                                <t t-esc='product_ids'/>
+                            </t>
+                        </div>
+                        <br></br>
+                        <br></br>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Ref.No</th>
+                                    <th>Invoice</th>
+                                    <t t-if="product_ids">
+                                    </t>
+                                    <t t-else="">
+                                        <th>Product</th>
+                                    </t>
+                                    <th>Request date</th>
+                                    <t t-if="customer_id">
+                                    </t>
+                                    <t t-else="">
+                                        <th>Customer</th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="sql_data" t-as="result">
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <span t-esc="result['reference_no']"/>
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <span t-esc="result['invoice_id']"/>
+                                            </center>
+                                        </td>
+                                        <t t-if="product_ids">
+                                        </t>
+                                        <t t-else="">
+                                            <td>
+                                                <center>
+                                                    <span t-esc="result['product']"/>
+                                                </center>
+                                            </td>
+                                        </t>
+                                        <td>
+                                            <center>
+                                                <span t-esc="result['request_date']"/>
+                                            </center>
+                                        </td>
+
+                                        <t t-if="customer_id">
+                                        </t>
+                                        <t t-else="">
+                                            <td>
+                                                <center>
+                                                    <span t-esc="result['customer']"/>
+                                                </center>
+                                            </td>
+                                        </t>
+                                        <!--                                            </t>-->
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
